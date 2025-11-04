@@ -1,7 +1,8 @@
 # Introduction 👋
 Welcome to virtmanager-win, this is a side project of mine where
-I am to make a UI Frontend for QEMU on windows for VirtManager in Python\Cython
-in QtQuick (QML) with PySide. **this repo is a work in progress, as of right now it is jus a simple hello world**
+the goal is to make a UI Frontend for QEMU on windows for VirtManager in Python\Cython
+in QtQuick (QML) with PySide.
+**keep in mind: this repo is a work in progress, as of right now it is just a simple hello world**
 
 ## installation | WIP 💿
 <br />

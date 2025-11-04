@@ -11,13 +11,19 @@ Window {
     Rectangle {
         id: main
         anchors.fill: parent
-        color: "green"
+        color: "white"
 
         Text {
-            text: "Hello World"
+            text: "Test"
             anchors.centerIn: parent
-            color: "white"
+            color: "black"
             font.pixelSize: 24
+        }
+        ToolbarWidget {
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 50
         }
     }
 }
