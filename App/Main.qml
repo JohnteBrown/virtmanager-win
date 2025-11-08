@@ -6,7 +6,7 @@ Window {
     width: 640
     height: 480
     visible: true
-    title: "Virtmanager-Win"
+    title: "VirtManager-Win"
 
     Rectangle {
         id: main
@@ -14,7 +14,7 @@ Window {
         color: "white"
 
         Text {
-            text: "Test"
+            text: "WIP"
             anchors.centerIn: parent
             color: "black"
             font.pixelSize: 24
@@ -24,6 +24,7 @@ Window {
             anchors.left: parent.left
             anchors.right: parent.right
             height: 50
+            color: "white"
         }
     }
 }
