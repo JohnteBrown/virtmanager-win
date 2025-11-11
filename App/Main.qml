@@ -14,7 +14,7 @@ Window {
         color: "white"
 
         Text {
-            text: "WIP"
+            text: "Main Window"
             anchors.centerIn: parent
             color: "black"
             font.pixelSize: 24
