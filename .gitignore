@@ -11,5 +11,4 @@ Thumbs.db
 .pyo
 
 # Virtualenv
-venv/
-.venv/
+*.venv/

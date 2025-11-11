@@ -5,7 +5,7 @@ in QtQuick (QML) with PySide.
 **keep in mind: this repo is a work in progress, as of right now it is just a simple hello world, why: because I am still learning Qt & QtQuick**
 
 ## AI Usage Policy
-due to this project being developed by a Solo Developer, AI usage is limited to the following:
+due to this project being developed by a Solo Developer (me), AI usage is limited to the following:
 
 - AI is used to generate code snippets and documentation.
 - AI is used to port minor components (command syntax like PowerShell, Bash, etc.)
@@ -17,6 +17,14 @@ due to this project being developed by a Solo Developer, AI usage is limited to 
 ## installation | WIP 💿
 <br />
 
+#### Windows
+**this is how you install virtmanager-win on windows**
+
+### MacOS & GNU/Linux
+**this is how you install virtmanager-win on MacOS & GNU/Linux**
+
+### Building from source
+**this is how you build virtmanager-win from source**
 
 ## Project links & resources 📕
 [Project Roadmap](https://meekoo459s-team.monday.com/boards/18335311576)

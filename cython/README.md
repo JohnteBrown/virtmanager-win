@@ -2,5 +2,5 @@
 the <code>raw</code> directory contains raw source files, you will need to compile them into Cython modules before using them. You can do this by running the build script in the <code>utils</code> directory in the project root:
 
 ```
-build tool is a WIP
+make build
 ```
