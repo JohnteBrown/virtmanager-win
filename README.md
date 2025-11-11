@@ -14,17 +14,20 @@ due to this project being developed by a Solo Developer (me), AI usage is limite
 - [🚫] AI is not used to generate test cases or automated testing.
 - [🚫] AI is not used to fix or otherwise patch security vulnerabilities.
 
+----
 ## installation | WIP 💿
-<br />
 
-### Windows
+
+### **Windows**
 **this is how you install virtmanager-win on windows (this is a placeholder)**
 
-### MacOS & GNU/Linux
+### **MacOS & GNU/Linux**
 **this is how you install virtmanager-win on MacOS & GNU/Linux (this is a placeholder)**
 
-### Building from source
+### **Building from source**
 **this is how you build virtmanager-win from source (this is a placeholder)**
+
+----
 
 ## Project links & resources 📕
 [Project Roadmap](https://meekoo459s-team.monday.com/boards/18335311576)
