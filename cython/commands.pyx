@@ -4,8 +4,8 @@ import subprocess
 import cython
 import os
 import sys
-import sqlite3
-import json
+import shutil
+import psutil
 # imports
 
 # static variables
@@ -13,40 +13,55 @@ VM_NAME = "new_vm"
 VM_DISK_SIZE = "10G"
 VM_MEMORY_SIZE = "2G"
 
+# Determine QEMU binary paths
+QEMU_IMG = "qemu-img.exe" if sys.platform.startswith("win") else "qemu-img"
+QEMU_SYSTEM = "qemu-system-x86_64.exe" if sys.platform.startswith("win") else "qemu-system-x86_64"
+
 def new_vm():
-    # First create the disk image
-    subprocess.run(["qemu-img", "create", "-f", "qcow2", f"{VM_NAME}.qcow2", VM_DISK_SIZE])
-    # Then start the VM
-    subprocess.run(["qemu-system-x86_64", "-machine", "pc", "-drive", f"file={VM_NAME}.qcow2,format=qcow2", "-m", VM_MEMORY_SIZE, "-smp", "2"])
+    # Create the disk image
+    subprocess.run([QEMU_IMG, "create", "-f", "qcow2", f"{VM_NAME}.qcow2", VM_DISK_SIZE], check=True)
+    # Start the VM
+    subprocess.run([QEMU_SYSTEM, "-machine", "pc",
+                    "-drive", f"file={VM_NAME}.qcow2,format=qcow2",
+                    "-m", VM_MEMORY_SIZE, "-smp", "2"], check=True)
 
 def start_vm():
-    subprocess.run(["qemu-system-x86_64", "-machine", "pc", "-drive", f"file={VM_NAME}.qcow2,format=qcow2", "-m", VM_MEMORY_SIZE, "-smp", "2"])
+    subprocess.run([QEMU_SYSTEM, "-machine", "pc",
+                    "-drive", f"file={VM_NAME}.qcow2,format=qcow2",
+                    "-m", VM_MEMORY_SIZE, "-smp", "2"], check=True)
 
 def stop_vm():
-    # QEMU doesn't have a direct stop command, this would need to use monitor commands or kill the process
-    subprocess.run(["pkill", "-f", f"{VM_NAME}.qcow2"])
+    # Kill any running QEMU process with VM_NAME in its command line
+    for proc in psutil.process_iter(["pid", "name", "cmdline"]):
+        try:
+            if proc.info["cmdline"] and VM_NAME in " ".join(proc.info["cmdline"]):
+                proc.kill()
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            pass
 
 def restart_vm():
-    # Stop then start
     stop_vm()
     start_vm()
 
 def delete_vm():
-    # Remove the disk image file
-    subprocess.run(["rm", f"{VM_NAME}.qcow2"])
+    if os.path.exists(f"{VM_NAME}.qcow2"):
+        os.remove(f"{VM_NAME}.qcow2")
 
 def list_vms():
-    # List qcow2 files in current directory
-    subprocess.run(["ls", "-la", "*.qcow2"])
+    for f in os.listdir("."):
+        if f.endswith(".qcow2"):
+            print(f)
 
 def update_vm():
-    # This would typically involve updating the guest OS, no direct QEMU command
-    subprocess.run(["qemu-system-x86_64", "-machine", "pc", "-drive", f"file={VM_NAME}.qcow2,format=qcow2", "-m", VM_MEMORY_SIZE, "-smp", "2"])
+    # Typically updating the guest OS; just start the VM here
+    subprocess.run([QEMU_SYSTEM, "-machine", "pc",
+                    "-drive", f"file={VM_NAME}.qcow2,format=qcow2",
+                    "-m", VM_MEMORY_SIZE, "-smp", "2"], check=True)
 
 def backup_vm():
-    # Copy the qcow2 file
-    subprocess.run(["cp", f"{VM_NAME}.qcow2", f"{VM_NAME}_backup.qcow2"])
+    if os.path.exists(f"{VM_NAME}.qcow2"):
+        shutil.copy(f"{VM_NAME}.qcow2", f"{VM_NAME}_backup.qcow2")
 
 def restore_vm():
-    # Restore from backup
-    subprocess.run(["cp", f"{VM_NAME}_backup.qcow2", f"{VM_NAME}.qcow2"])
+    if os.path.exists(f"{VM_NAME}_backup.qcow2"):
+        shutil.copy(f"{VM_NAME}_backup.qcow2", f"{VM_NAME}.qcow2")
