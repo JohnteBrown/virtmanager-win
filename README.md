@@ -17,7 +17,7 @@ due to this project being developed by a Solo Developer (me), AI usage is limite
 ## installation | WIP 💿
 <br />
 
-#### Windows
+### Windows
 **this is how you install virtmanager-win on windows**
 
 ### MacOS & GNU/Linux
