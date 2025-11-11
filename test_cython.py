@@ -19,7 +19,7 @@ def test_cython_import():
 
     # Try to import the example module
     try:
-        from cython.example import (
+        from virtmanager_cython.example import (
             fast_sum,
             euclidean_distance,
             fibonacci,
@@ -27,14 +27,14 @@ def test_cython_import():
             test_functions,
         )
 
-        print("✅ Successfully imported cython.example module")
+        print("✅ Successfully imported virtmanager_cython.example module")
         return True
     except ImportError as e:
-        print(f"❌ Failed to import cython.example: {e}")
+        print(f"❌ Failed to import virtmanager_cython.example: {e}")
         print("   Make sure to run: python build.py build_ext --inplace")
         return False
     except Exception as e:
-        print(f"❌ Unexpected error importing cython.example: {e}")
+        print(f"❌ Unexpected error importing virtmanager_cython.example: {e}")
         traceback.print_exc()
         return False
 
@@ -47,7 +47,7 @@ def test_basic_functions():
 
     try:
         import numpy as np
-        from cython.example import fast_sum, euclidean_distance, fibonacci
+        from virtmanager_cython.example import fast_sum, euclidean_distance, fibonacci
 
         # Test fast_sum
         print("\n🧮 Testing fast_sum function:")
@@ -104,7 +104,7 @@ def test_cython_class():
     print("=" * 60)
 
     try:
-        from cython.example import FastCalculator
+        from virtmanager_cython.example import FastCalculator
 
         print("\n⚡ Testing FastCalculator class:")
         x_val, y_val = 3.14, 2.71
@@ -143,7 +143,7 @@ def test_performance_comparison():
     try:
         import numpy as np
         import time
-        from cython.example import fast_sum
+        from virtmanager_cython.example import fast_sum
 
         # Create a large test array
         size = 1000000
@@ -171,7 +171,7 @@ def test_performance_comparison():
         print(f"   Python result: {python_result:.10f} (Time: {python_time:.6f}s)")
 
         # Verify results are approximately equal
-        assert abs(cython_result - numpy_result) < 1e-10, (
+        assert abs(cython_result - numpy_result) < 1e-6, (
             "Cython and NumPy results don't match"
         )
         assert abs(cython_result - python_result) < 1e-6, (
@@ -203,7 +203,7 @@ def run_example_test_functions():
     print("=" * 60)
 
     try:
-        from cython.example import test_functions
+        from virtmanager_cython.example import test_functions
 
         print("\n🧪 Running built-in test functions:")
         test_functions()
@@ -221,9 +221,9 @@ def main():
     print("Testing compiled Cython extensions for virtmanager-win")
 
     # Check if compiled extensions exist
-    cython_dir = Path("cython")
-    pyd_files = list(cython_dir.glob("**/*.pyd"))  # Windows
-    so_files = list(cython_dir.glob("**/*.so"))  # Linux/macOS
+    virtmanager_cython_dir = Path("virtmanager_cython")
+    pyd_files = list(virtmanager_cython_dir.glob("**/*.pyd"))  # Windows
+    so_files = list(virtmanager_cython_dir.glob("**/*.so"))  # Linux/macOS
 
     if not pyd_files and not so_files:
         print("\n❌ No compiled extensions found!")

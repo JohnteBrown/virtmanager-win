@@ -57,8 +57,13 @@ def create_extensions(pyx_files):
 
     for pyx_file in pyx_files:
         # Convert file path to module name
-        # e.g., "cython/utils/helper.pyx" -> "cython.utils.helper"
+        # e.g., "cython/utils/helper.pyx" -> "virtmanager_cython.utils.helper"
+        # Avoid using "cython" as module name as it conflicts with the Cython package
         module_name = pyx_file.replace(os.sep, ".").replace(".pyx", "")
+        if module_name.startswith("cython."):
+            module_name = module_name.replace("cython.", "virtmanager_cython.", 1)
+        elif module_name == "cython":
+            module_name = "virtmanager_cython"
 
         # Create extension with common settings
         ext = Extension(
@@ -145,6 +150,7 @@ def main():
         name="virtmanager-win-cython",
         ext_modules=cythonized_extensions,
         cmdclass={"build_ext": build_ext},
+        packages=[],  # Explicitly set to empty list to avoid auto-discovery
         zip_safe=False,
     )
 
