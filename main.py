@@ -1,4 +1,5 @@
 import sys
+import subprocess
 from pathlib import Path
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
@@ -28,7 +29,12 @@ def main():
         return 1
 
     # Run the application
-    return app.exec()
+    return_code = app.exec()
+
+    # Log the program status
+    subprocess.run(["echo", "Program is running!!", ">>", "log/main.log"])
+
+    return return_code
 
 
 if __name__ == "__main__":
