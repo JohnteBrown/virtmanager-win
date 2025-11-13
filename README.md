@@ -16,13 +16,10 @@ due to this project being developed by a Solo Developer (me), AI usage is limite
 
 ----
 ## installation | WIP 💿
-
+> [ℹ️] Install steps will likely be provided at the very end of the projects in-dev phase.
 
 ### **Windows**
 **this is how you install virtmanager-win on windows (this is a placeholder)**
-
-### **MacOS & GNU/Linux**
-**this is how you install virtmanager-win on MacOS & GNU/Linux (this is a placeholder)**
 
 ### **Building from source**
 **this is how you build virtmanager-win from source (this is a placeholder)**
@@ -33,3 +30,5 @@ due to this project being developed by a Solo Developer (me), AI usage is limite
 [Project Roadmap](https://meekoo459s-team.monday.com/boards/18335311576)
 
 [GitHub](https://github.com/johntebrown/virtmanager-win)
+
+[VirtManager Site](https://example.com)

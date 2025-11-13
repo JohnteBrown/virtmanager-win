@@ -11,21 +11,21 @@ import os
 import sys
 import shutil
 import psutil
-# imports
+# imports.
 
-# static variables
-VM_NAME = "new_vm"
+# static variables.
+VM_NAME = "unnamed_vm"
 VM_DISK_SIZE = "10G"
 VM_MEMORY_SIZE = "2G"
 
-# Determine QEMU binary paths
+# Determine QEMU binary paths.
 QEMU_IMG = "qemu-img.exe" if sys.platform.startswith("win") else "qemu-img"
 QEMU_SYSTEM = "qemu-system-x86_64.exe" if sys.platform.startswith("win") else "qemu-system-x86_64"
 
 def new_vm():
-    # Create the disk image
+    # Create the disk image.
     subprocess.run([QEMU_IMG, "create", "-f", "qcow2", f"{VM_NAME}.qcow2", VM_DISK_SIZE], check=True)
-    # Start the VM
+    # Start the VM.
     subprocess.run([QEMU_SYSTEM, "-machine", "pc",
                     "-drive", f"file={VM_NAME}.qcow2,format=qcow2",
                     "-m", VM_MEMORY_SIZE, "-smp", "2"], check=True)
@@ -36,7 +36,7 @@ def start_vm():
                     "-m", VM_MEMORY_SIZE, "-smp", "2"], check=True)
 
 def stop_vm():
-    # Kill any running QEMU process with VM_NAME in its command line
+    # Kill any running QEMU process with VM_NAME in its command line.
     for proc in psutil.process_iter(["pid", "name", "cmdline"]):
         try:
             if proc.info["cmdline"] and VM_NAME in " ".join(proc.info["cmdline"]):
@@ -58,7 +58,7 @@ def list_vms():
             print(f)
 
 def update_vm():
-    # Typically updating the guest OS; just start the VM here
+    # Typically updating the guest OS; just start the VM here.
     subprocess.run([QEMU_SYSTEM, "-machine", "pc",
                     "-drive", f"file={VM_NAME}.qcow2,format=qcow2",
                     "-m", VM_MEMORY_SIZE, "-smp", "2"], check=True)
@@ -70,3 +70,8 @@ def backup_vm():
 def restore_vm():
     if os.path.exists(f"{VM_NAME}_backup.qcow2"):
         shutil.copy(f"{VM_NAME}_backup.qcow2", f"{VM_NAME}.qcow2")
+
+def debug():
+    subprocess.run([QEMU_SYSTEM, "-machine", "pc",
+                    "-drive", f"file={VM_NAME}.qcow2,format=qcow2",
+                    "-m", VM_MEMORY_SIZE, "-smp", "2", "-gdb", "tcp::1234"], check=True)
