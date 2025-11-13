@@ -22,7 +22,7 @@ due to this project being developed by a Solo Developer (me), AI usage is limite
 **this is how you install virtmanager-win on windows (this is a placeholder)**
 
 ### **Building from source**
-**this is how you build virtmanager-win from source (this is a placeholder)**
+**please refer to [building.md](docs/building.md) for instructions on how to build virtmanager-win from source.**
 
 ----
 
@@ -31,4 +31,4 @@ due to this project being developed by a Solo Developer (me), AI usage is limite
 
 [GitHub](https://github.com/johntebrown/virtmanager-win)
 
-[VirtManager Site](https://example.com)
+[VirtManager Site (COMING SOON)](https://example.com)

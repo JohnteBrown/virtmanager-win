@@ -18,8 +18,13 @@ when debugging you can use the following commands:
 ```./run.sh``` can be used to start the application in debug mode.
 
 ## Building & Compiling Core Modules
-This project uses [Cython](https://cython.org/#download) for its core modules, to compile them please refer to ```building.md``` to get started.
+This project uses [Cython](https://cython.org/#download) for its core modules, to compile them please refer to [building.md](./building.md) to get started.
 
 ## Important Reminders
 this repo does use the UV package manager for python, please use UV for adding packages or running the project
 if you are unfamiliar with UV or how to install it you can refer to the following site to get started with [uv](https://docs.astral.sh/uv/)
+
+## Email & Support
+Support Email: helpdesk@rainpowered.com
+
+Support Forum: **COMING SOON**
