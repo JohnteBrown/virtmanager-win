@@ -69,9 +69,11 @@ commands:
   store_artifacts:
     description: "Store build artifacts"
     steps:
-      - store_artifacts:
-          path: build/
-          destination: build-artifacts
+      - run:
+          name: Store build artifacts
+          command: |
+            mkdir -p ~/artifacts/build
+            cp -r build/* ~/artifacts/build/
       - run:
           name: Generate HTML annotations (if available)
           command: |
@@ -81,10 +83,11 @@ commands:
             else
               echo "No HTML annotation files generated"
             fi
-      - store_artifacts:
-          path: build/cython/
-          destination: cython-annotations
-          when: on_success
+      - run:
+          name: Store cython annotations
+          command: |
+            mkdir -p ~/artifacts/cython
+            cp -r build/cython/* ~/artifacts/cython/
 
 # Define jobs
 jobs:
