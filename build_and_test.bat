@@ -6,6 +6,13 @@ echo ============================================================
 echo Cython Build and Test Script for virtmanager-win
 echo ============================================================
 
+REM Prefer Poetry-managed virtualenv when available.
+set POETRY_VIRTUALENVS_IN_PROJECT=true
+set POETRY_NO_INTERACTION=1
+set HAS_POETRY=0
+where poetry >nul 2>nul
+if %errorlevel%==0 set HAS_POETRY=1
+
 REM Check if Python is available
 python --version >nul 2>&1
 if errorlevel 1 (
@@ -21,12 +28,26 @@ python --version
 REM Check if we're in a virtual environment or if dependencies are available
 echo.
 echo Checking dependencies...
-python -c "import cython; print('✓ Cython available')" 2>nul || (
-    echo ERROR: Cython not found
-    echo Please install dependencies with: pip install cython numpy setuptools
-    echo Or if using uv: uv sync
-    pause
-    exit /b 1
+if %HAS_POETRY%==1 (
+    poetry run python -c "import cython; print('✓ Cython available')" 2>nul || (
+        echo ERROR: Cython not found in Poetry environment
+        echo Attempting dependency install with: poetry install --no-root
+        if exist "pyproject.toml" (
+            poetry install --no-root
+        )
+        poetry run python -c "import cython; print('✓ Cython available')" 2>nul || (
+            echo ERROR: Cython still not available after Poetry install
+            exit /b 1
+        )
+    )
+) else (
+    python -c "import cython; print('✓ Cython available')" 2>nul || (
+        echo ERROR: Cython not found
+        echo Please install dependencies with: pip install cython numpy setuptools
+        echo Or with Poetry: poetry install --no-root
+        pause
+        exit /b 1
+    )
 )
 
 REM Clean previous builds
@@ -42,7 +63,11 @@ echo.
 echo ============================================================
 echo Building Cython Extensions
 echo ============================================================
-python build.py build_ext --inplace
+if %HAS_POETRY%==1 (
+    poetry run python build.py build_ext --inplace
+) else (
+    python build.py build_ext --inplace
+)
 if errorlevel 1 (
     echo.
     echo ERROR: Build failed!
@@ -64,7 +89,11 @@ echo.
 echo ============================================================
 echo Running Tests
 echo ============================================================
-python test_cython.py
+if %HAS_POETRY%==1 (
+    poetry run python test_cython.py
+) else (
+    python test_cython.py
+)
 if errorlevel 1 (
     echo.
     echo WARNING: Some tests failed!
@@ -95,4 +124,4 @@ echo   2. Review HTML annotation files in build/cython/ for optimization
 echo   3. Import and use your compiled modules in your Python code
 echo.
 
-pause
+if not defined APPVEYOR pause

@@ -169,7 +169,7 @@ if __name__ == "__main__":
     except ImportError:
         print("❌ Error: Cython is required for compilation.")
         print("   Install it with: pip install cython")
-        print("   Or run: uv add cython")
+        print("   Or run: poetry install --no-root")
         sys.exit(1)
 
     main()

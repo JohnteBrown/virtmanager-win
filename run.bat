@@ -5,11 +5,14 @@ echo.
 REM Change to the script directory
 cd /d "%~dp0"
 
-REM Check if uv is available
-uv --version >nul 2>&1
+set POETRY_VIRTUALENVS_IN_PROJECT=true
+set POETRY_NO_INTERACTION=1
+
+REM Check if poetry is available
+poetry --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Error: UV package manager not found. Please install UV first.
-    echo Visit: https://docs.astral.sh/uv/getting-started/installation/
+    echo Error: Poetry not found. Please install Poetry first.
+    echo Visit: https://python-poetry.org/docs/#installation
     pause
     exit /b 1
 )
@@ -17,7 +20,7 @@ if %errorlevel% neq 0 (
 REM Check if virtual environment exists
 if not exist ".venv" (
     echo Virtual environment not found. Creating one...
-    uv sync
+    poetry install --no-root
     if %errorlevel% neq 0 (
         echo Error: Failed to create virtual environment
         pause
@@ -27,11 +30,11 @@ if not exist ".venv" (
 
 REM Run the application
 echo Running application...
-uv run python main.py
+poetry run python main.py
 
 REM Keep window open if there was an error
 if %errorlevel% neq 0 (
     echo.
     echo Application exited with error code %errorlevel%
-    pause
+    if not defined APPVEYOR pause
 )

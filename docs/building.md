@@ -17,7 +17,7 @@ make run           # Start the application
 ### Environment Setup
 | Command | Description |
 |---------|-------------|
-| `make install` | Install dependencies using uv |
+| `make install` | Install dependencies using Poetry |
 | `make install-pip` | Install dependencies using pip (fallback) |
 | `make install-dev` | Install development dependencies |
 | `make venv` | Create virtual environment |

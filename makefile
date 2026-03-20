@@ -7,7 +7,7 @@
 
 PROJECT_NAME := virtmanager-win
 PYTHON := python3
-UV := uv
+POETRY := poetry
 PIP := pip
 VENV_DIR := .venv
 SOURCE_DIRS := App utils scripts cython
@@ -54,9 +54,9 @@ help: ## Show this help message
 # =============================================================================
 
 .PHONY: install
-install: ## Install dependencies using uv
-	@echo "$(BLUE)Installing dependencies with uv...$(RESET)"
-	$(UV) sync
+install: ## Install dependencies using Poetry
+	@echo "$(BLUE)Installing dependencies with Poetry...$(RESET)"
+	POETRY_VIRTUALENVS_IN_PROJECT=true POETRY_NO_INTERACTION=1 $(POETRY) install --no-root
 	@echo "$(GREEN)✓ Dependencies installed$(RESET)"
 
 .PHONY: install-pip
@@ -68,7 +68,7 @@ install-pip: ## Install dependencies using pip (fallback)
 .PHONY: install-dev
 install-dev: install ## Install development dependencies
 	@echo "$(BLUE)Installing development dependencies...$(RESET)"
-	$(UV) add --dev pytest black isort flake8 mypy pre-commit || true
+	POETRY_VIRTUALENVS_IN_PROJECT=true POETRY_NO_INTERACTION=1 $(POETRY) install --no-root --with dev
 	@echo "$(GREEN)✓ Development dependencies installed$(RESET)"
 
 .PHONY: venv
@@ -231,7 +231,6 @@ clean: ## Clean build artifacts and cache files
 clean-all: clean ## Clean everything including virtual environment
 	@echo "$(BLUE)Cleaning virtual environment...$(RESET)"
 	rm -rf $(VENV_DIR)/
-	rm -rf .uv_cache/ || true
 	@echo "$(GREEN)✓ Everything cleaned$(RESET)"
 
 # =============================================================================
@@ -246,18 +245,18 @@ shell: ## Open interactive Python shell with project in path
 .PHONY: notebook
 notebook: ## Start Jupyter notebook server
 	@echo "$(BLUE)Starting Jupyter notebook...$(RESET)"
-	$(PYTHON) -m jupyter notebook || echo "$(YELLOW)Install jupyter: uv add jupyter$(RESET)"
+	$(PYTHON) -m jupyter notebook || echo "$(YELLOW)Install jupyter: poetry add jupyter$(RESET)"
 
 .PHONY: deps-update
 deps-update: ## Update dependencies
 	@echo "$(BLUE)Updating dependencies...$(RESET)"
-	$(UV) lock --upgrade || $(PIP) list --outdated
+	$(POETRY) update || $(PIP) list --outdated
 	@echo "$(GREEN)✓ Dependencies updated$(RESET)"
 
 .PHONY: deps-graph
 deps-graph: ## Show dependency graph
 	@echo "$(BLUE)Dependency graph:$(RESET)"
-	$(UV) tree || $(PIP) show $(PROJECT_NAME) || echo "$(YELLOW)Install pipdeptree: pip install pipdeptree$(RESET)"
+	$(POETRY) show --tree || $(PIP) show $(PROJECT_NAME) || echo "$(YELLOW)Install pipdeptree: pip install pipdeptree$(RESET)"
 
 # =============================================================================
 # Git Hooks
@@ -270,7 +269,7 @@ pre-commit: format lint test ## Run pre-commit checks
 .PHONY: install-hooks
 install-hooks: ## Install pre-commit git hooks
 	@echo "$(BLUE)Installing pre-commit hooks...$(RESET)"
-	$(PYTHON) -m pre_commit install || echo "$(YELLOW)Install pre-commit: uv add --dev pre-commit$(RESET)"
+	$(PYTHON) -m pre_commit install || echo "$(YELLOW)Install pre-commit: poetry add --group dev pre-commit$(RESET)"
 	@echo "$(GREEN)✓ Pre-commit hooks installed$(RESET)"
 
 # =============================================================================
@@ -284,7 +283,7 @@ info: ## Show project information
 	@echo "$(YELLOW)Python version:$(RESET) $$($(PYTHON) --version 2>&1)"
 	@echo "$(YELLOW)Project directory:$(RESET) $$(pwd)"
 	@echo "$(YELLOW)Virtual environment:$(RESET) $(VENV_DIR)"
-	@echo "$(YELLOW)Dependencies manager:$(RESET) $(UV)"
+	@echo "$(YELLOW)Dependencies manager:$(RESET) $(POETRY)"
 	@echo ""
 	@echo "$(YELLOW)Source directories:$(RESET) $(SOURCE_DIRS)"
 	@echo "$(YELLOW)Cython files found:$(RESET) $$(find $(CYTHON_DIR) -name "*.pyx" 2>/dev/null | wc -l || echo 0)"
@@ -295,10 +294,10 @@ info: ## Show project information
 	else \
 		echo "$(RED)✗ Virtual environment not found$(RESET)"; \
 	fi
-	@if command -v $(UV) >/dev/null 2>&1; then \
-		echo "$(GREEN)✓ UV package manager available$(RESET)"; \
+	@if command -v $(POETRY) >/dev/null 2>&1; then \
+		echo "$(GREEN)✓ Poetry package manager available$(RESET)"; \
 	else \
-		echo "$(RED)✗ UV package manager not found$(RESET)"; \
+		echo "$(RED)✗ Poetry package manager not found$(RESET)"; \
 	fi
 
 # =============================================================================

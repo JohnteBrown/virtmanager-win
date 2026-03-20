@@ -6,26 +6,27 @@ echo
 # Change to the script directory
 cd "$(dirname "$0")"
 
-# Check if uv is available
-if ! command -v uv &> /dev/null; then
-    echo "Error: UV package manager not found. Please install UV first."
-    echo "Visit: https://docs.astral.sh/uv/getting-started/installation/"
-    exit 1
-fi
-
-# Check if virtual environment exists
-if [ ! -d ".venv" ]; then
-    echo "Virtual environment not found. Creating one..."
-    uv sync
-    if [ $? -ne 0 ]; then
-        echo "Error: Failed to create virtual environment"
+# If a Poetry-created virtualenv already exists, use it directly.
+if [ -x ".venv/bin/python" ]; then
+    echo "Virtual environment found. Using .venv/bin/python..."
+else
+    # Otherwise, create/install dependencies via Poetry.
+    if ! command -v poetry &> /dev/null; then
+        echo "Error: Poetry not found. Please install Poetry first."
         exit 1
     fi
+
+    echo "Virtual environment not found. Installing dependencies with Poetry..."
+    POETRY_VIRTUALENVS_IN_PROJECT=true POETRY_NO_INTERACTION=1 poetry install --no-root
 fi
 
 # Run the application
 echo "Running application..."
-uv run python main.py
+if [ -x ".venv/bin/python" ]; then
+    .venv/bin/python main.py
+else
+    POETRY_VIRTUALENVS_IN_PROJECT=true POETRY_NO_INTERACTION=1 poetry run python main.py
+fi
 
 # Check exit code
 exit_code=$?

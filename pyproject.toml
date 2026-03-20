@@ -3,10 +3,18 @@ name = "virtmanager-win"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.10"
 dependencies = [
     "cython>=3.1.6",
     "pyside6>=6.10.0",
     "numpy>=1.24.0",
     "setuptools>=65.0.0",
 ]
+
+[tool.poetry.group.dev.dependencies]
+black = ">=26.3.1"
+flake8 = ">=7.3.0"
+isort = ">=8.0.1"
+mypy = ">=1.19.1"
+pre-commit = ">=4.5.1"
+pytest = ">=9.0.2"

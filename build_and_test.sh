@@ -24,14 +24,30 @@ fi
 echo "Python version:"
 $PYTHON_CMD --version
 
+# If Poetry is available, prefer running inside its virtualenv.
+PYTHON_RUN="$PYTHON_CMD"
+if command -v poetry &> /dev/null; then
+    PYTHON_RUN="poetry run python"
+fi
+
 # Check if we're in a virtual environment or if dependencies are available
 echo ""
 echo "Checking dependencies..."
-if ! $PYTHON_CMD -c "import cython; print('✓ Cython available')" 2>/dev/null; then
+if ! $PYTHON_RUN -c "import cython; print('✓ Cython available')" 2>/dev/null; then
     echo "❌ ERROR: Cython not found"
-    echo "   Please install dependencies with: pip install cython numpy setuptools"
-    echo "   Or if using uv: uv sync"
-    exit 1
+    if command -v poetry &> /dev/null && [ -f "pyproject.toml" ]; then
+        echo "   Attempting dependency install with Poetry..."
+        POETRY_VIRTUALENVS_IN_PROJECT=true POETRY_NO_INTERACTION=1 poetry install --no-root
+        # Re-check after install
+        if ! $PYTHON_RUN -c "import cython; print('✓ Cython available')" 2>/dev/null; then
+            echo "❌ ERROR: Cython still not available after Poetry install"
+            exit 1
+        fi
+    else
+        echo "   Please install dependencies with: pip install cython numpy setuptools"
+        echo "   Or with Poetry: poetry install --no-root"
+        exit 1
+    fi
 fi
 
 # Clean previous builds
@@ -47,7 +63,7 @@ echo ""
 echo "============================================================"
 echo "Building Cython Extensions"
 echo "============================================================"
-$PYTHON_CMD build.py build_ext --inplace
+$PYTHON_RUN build.py build_ext --inplace
 
 if [ $? -ne 0 ]; then
     echo ""
@@ -69,7 +85,7 @@ echo ""
 echo "============================================================"
 echo "Running Tests"
 echo "============================================================"
-if $PYTHON_CMD test_cython.py; then
+if $PYTHON_RUN test_cython.py; then
     echo ""
     echo "✅ All tests passed successfully!"
     TEST_SUCCESS=true
