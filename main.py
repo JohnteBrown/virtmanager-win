@@ -14,7 +14,7 @@ def main():
     engine = QQmlApplicationEngine()
 
     # Get the path to the QML file
-    qml_file = Path(__file__).parent / "App" / "Main.qml"
+    qml_file = Path(__file__).parent / "ui" / "Main.qml"
 
     # Ensure QML file exists
     if not qml_file.exists():
