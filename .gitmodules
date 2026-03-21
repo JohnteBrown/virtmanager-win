@@ -1,0 +1,3 @@
+[submodule "shared/geosilk-icons"]
+	path = shared/geosilk-icons
+	url = https://github.com/JohnteBrown/geosilk-archive.git
