@@ -1,3 +1,6 @@
 [submodule "shared/geosilk-icons"]
 	path = shared/geosilk-icons
 	url = https://github.com/JohnteBrown/geosilk-archive.git
+[submodule "shared/fugue-2x-icons"]
+	path = shared/fugue-2x-icons
+	url = https://github.com/chrisjbillington/fugue-2x-icons.git
