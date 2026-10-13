@@ -12,6 +12,7 @@ due to this project being developed by a Solo Developer (me), AI usage is limite
 - [✅] AI is used to generate code snippets and documentation.
 - [✅] AI is used to port minor components (command syntax like PowerShell, Bash, etc.)
 - [✅] AI is used to generate boilerplate & utilities (makefiles, scripts, etc)
+- [🕒] AI (Agentic) integration is being planned to speed up development & Improve ease development.
 - [🚫] AI is not used to generate user interface designs or layouts.
 - [🚫] AI is not used to generate test cases or automated testing.
 - [🚫] AI is not used to fix or otherwise patch security vulnerabilities.
