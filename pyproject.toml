@@ -1,4 +1,5 @@
 [project]
+package-mode = false
 name = "virtmanager-win"
 version = "0.1.0"
 description = "A QEMU frontend built for windows using Qt & Pyside6"
