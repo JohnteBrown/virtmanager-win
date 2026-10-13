@@ -12,3 +12,6 @@ Thumbs.db
 
 # Virtualenv
 *.venv/
+
+# Artifacts
+build/**
