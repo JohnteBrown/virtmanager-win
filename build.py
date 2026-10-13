@@ -4,11 +4,13 @@ Build script for compiling Cython (.pyx) files to Python extension modules (.pyd
 Uses setuptools to automatically find and compile all .pyx files in the cython/ directory.
 """
 
+import glob
 import os
 import sys
-import glob
 from pathlib import Path
-from setuptools import setup, Extension
+
+from setuptools import Extension, setup
+
 from Cython.Build import cythonize
 from Cython.Distutils import build_ext
 
@@ -80,11 +82,13 @@ def create_extensions(pyx_files):
                 "-Wall",  # Enable warnings
             ],
             extra_link_args=[],
-            define_macros=[
-                ("NPY_NO_DEPRECATED_API", "NPY_1_7_API_MIN"),
-            ]
-            if NUMPY_AVAILABLE
-            else [],
+            define_macros=(
+                [
+                    ("NPY_NO_DEPRECATED_API", "NPY_1_7_API_MIN"),
+                ]
+                if NUMPY_AVAILABLE
+                else []
+            ),
         )
         extensions.append(ext)
 

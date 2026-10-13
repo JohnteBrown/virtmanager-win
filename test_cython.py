@@ -4,9 +4,9 @@ Test script for compiled Cython extensions.
 This script verifies that the compiled .pyx files work correctly.
 """
 
-import sys
-import os
 import importlib
+import os
+import sys
 import traceback
 from pathlib import Path
 
@@ -19,13 +19,9 @@ def test_cython_import():
 
     # Try to import the example module
     try:
-        from virtmanager_cython.example import (
-            fast_sum,
-            euclidean_distance,
-            fibonacci,
-            FastCalculator,
-            test_functions,
-        )
+        from virtmanager_cython.example import (FastCalculator,
+                                                euclidean_distance, fast_sum,
+                                                fibonacci, test_functions)
 
         print("✅ Successfully imported virtmanager_cython.example module")
         return True
@@ -47,7 +43,8 @@ def test_basic_functions():
 
     try:
         import numpy as np
-        from virtmanager_cython.example import fast_sum, euclidean_distance, fibonacci
+        from virtmanager_cython.example import (euclidean_distance, fast_sum,
+                                                fibonacci)
 
         # Test fast_sum
         print("\n🧮 Testing fast_sum function:")
@@ -70,9 +67,9 @@ def test_basic_functions():
         print(f"   Point 2: {point2}")
         print(f"   Distance: {distance}")
         print(f"   Expected: {expected_distance}")
-        assert abs(distance - expected_distance) < 1e-10, (
-            f"Expected {expected_distance}, got {distance}"
-        )
+        assert (
+            abs(distance - expected_distance) < 1e-10
+        ), f"Expected {expected_distance}, got {distance}"
         print("   ✅ euclidean_distance test passed")
 
         # Test fibonacci
@@ -116,9 +113,9 @@ def test_cython_class():
         expected_multiply = x_val * y_val
         print(f"   multiply() result: {multiply_result}")
         print(f"   Expected: {expected_multiply}")
-        assert abs(multiply_result - expected_multiply) < 1e-10, (
-            f"Expected {expected_multiply}, got {multiply_result}"
-        )
+        assert (
+            abs(multiply_result - expected_multiply) < 1e-10
+        ), f"Expected {expected_multiply}, got {multiply_result}"
         print("   ✅ multiply method test passed")
 
         # Test trigonometric_sum method
@@ -141,8 +138,9 @@ def test_performance_comparison():
     print("=" * 60)
 
     try:
-        import numpy as np
         import time
+
+        import numpy as np
         from virtmanager_cython.example import fast_sum
 
         # Create a large test array
@@ -171,12 +169,12 @@ def test_performance_comparison():
         print(f"   Python result: {python_result:.10f} (Time: {python_time:.6f}s)")
 
         # Verify results are approximately equal
-        assert abs(cython_result - numpy_result) < 1e-6, (
-            "Cython and NumPy results don't match"
-        )
-        assert abs(cython_result - python_result) < 1e-6, (
-            "Cython and Python results don't match"
-        )
+        assert (
+            abs(cython_result - numpy_result) < 1e-6
+        ), "Cython and NumPy results don't match"
+        assert (
+            abs(cython_result - python_result) < 1e-6
+        ), "Cython and Python results don't match"
 
         # Calculate speedups
         if python_time > 0:
