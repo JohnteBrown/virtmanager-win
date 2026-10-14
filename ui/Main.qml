@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Window
+import "v4/qtscript/WLib.js" as WLib
 
 Window {
     id: mainWindow

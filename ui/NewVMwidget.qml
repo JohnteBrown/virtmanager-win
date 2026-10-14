@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import "v4/qtscript/WLib.js" as WLib
 
 main {
     ScrollIndicator {
