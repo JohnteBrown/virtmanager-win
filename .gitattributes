@@ -1,1 +1,2 @@
 ui/v4/qtscript/**/*.js linguist-language=QtScript
+ui/v4/qtscript/**/*.js linguist-detectable=true
