@@ -8,7 +8,6 @@ ApplicationWindow {
     height: 260
     visible: true
 
-    // 1. Add the ToolBar component
     header: ToolBar {
         id: mainToolBar
         
@@ -17,11 +16,9 @@ ApplicationWindow {
             anchors.fill: parent
             spacing: 5
             
-            // Initial placeholder button
             Button {
                 text: "Init Controls"
                 onClicked: {
-                    // 2. Pass QML references directly to JS functions
                     WLib.toggleToolbarVisibility(mainToolBar); 
                     WLib.createToolbarButton(toolbarRow, window);
                 }
