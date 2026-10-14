@@ -1,3 +1,4 @@
 module App
 Main 1.0 Main.qml
 ToolbarWidget 1.0 ToolbarWidget.qml
+NewVMwidget 1.0 NewVMwidget.qml
