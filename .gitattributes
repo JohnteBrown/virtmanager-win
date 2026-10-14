@@ -1,2 +1,2 @@
-ui/v4/qtscript/**/*.js linguist-language=Qt Script
+ui/v4/qtscript/**/*.js linguist-language="Qt Script"
 ui/v4/qtscript/**/*.js linguist-detectable=true
