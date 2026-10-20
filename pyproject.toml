@@ -1,8 +1,7 @@
 [project]
-package-mode = false
 name = "virtmanager-win"
 version = "0.1.0"
-description = "A QEMU frontend built for windows using Qt & Pyside6"
+description = "A QEMU frontend built for Windows using Qt & PySide6"
 readme = "README.md"
 requires-python = ">=3.11,<3.15"
 dependencies = [
@@ -11,6 +10,9 @@ dependencies = [
     "numpy>=2.3.4",
     "setuptools>=65.0.0",
 ]
+
+[tool.poetry]
+package-mode = false
 
 [tool.poetry.group.dev.dependencies]
 black = ">=26.3.1"
