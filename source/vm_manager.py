@@ -8,7 +8,15 @@ import shutil
 import sys
 from pathlib import Path
 
-from PySide6.QtCore import QObject, Property, QProcess, QStandardPaths, QTimer, Signal, Slot
+from PySide6.QtCore import (
+    QObject,
+    Property,
+    QProcess,
+    QStandardPaths,
+    QTimer,
+    Signal,
+    Slot,
+)
 
 
 class VMManager(QObject):
@@ -58,9 +66,7 @@ class VMManager(QObject):
         self.vmsChanged.emit()
 
     @Slot(str, int, int, int, result=bool)
-    def createVm(
-        self, name: str, memory_mb: int, cpus: int, disk_size_gb: int
-    ) -> bool:
+    def createVm(self, name: str, memory_mb: int, cpus: int, disk_size_gb: int) -> bool:
         name = name.strip()
         if not self._name_pattern.fullmatch(name):
             return self._fail(
@@ -111,7 +117,10 @@ class VMManager(QObject):
         if not disk_path.is_file():
             return self._fail(f'VM disk for "{name}" was not found.')
         existing_process = self._processes.get(name)
-        if existing_process and existing_process.state() != QProcess.ProcessState.NotRunning:
+        if (
+            existing_process
+            and existing_process.state() != QProcess.ProcessState.NotRunning
+        ):
             return self._fail(f'"{name}" is already running or starting.')
 
         qemu_system = self._find_program("qemu-system-x86_64")
@@ -194,15 +203,19 @@ class VMManager(QObject):
         process, metadata = pending
         disk_path = self._disk_path(name)
         if exit_code != 0:
-            details = bytes(process.readAllStandardError()).decode(
-                "utf-8", errors="replace"
-            ).strip()
+            details = (
+                bytes(process.readAllStandardError())
+                .decode("utf-8", errors="replace")
+                .strip()
+            )
             disk_path.unlink(missing_ok=True)
             message = details or f"qemu-img exited with code {exit_code}."
             self._set_error(f'Could not create "{name}": {message}')
         else:
             if not disk_path.is_file():
-                self._set_error("qemu-img exited successfully but did not create the disk.")
+                self._set_error(
+                    "qemu-img exited successfully but did not create the disk."
+                )
             else:
                 try:
                     self._create_metadata(disk_path, *metadata)
@@ -224,7 +237,9 @@ class VMManager(QObject):
         process, _metadata = pending
         process.deleteLater()
         self._disk_path(name).unlink(missing_ok=True)
-        self._set_error("Could not start qemu-img. Check the QEMU installation and PATH.")
+        self._set_error(
+            "Could not start qemu-img. Check the QEMU installation and PATH."
+        )
 
     def _process_started(self, name: str) -> None:
         self._states[name] = "Running"
@@ -241,9 +256,11 @@ class VMManager(QObject):
         if exit_code:
             details = ""
             if process is not None:
-                details = bytes(process.readAllStandardError()).decode(
-                    "utf-8", errors="replace"
-                ).strip()
+                details = (
+                    bytes(process.readAllStandardError())
+                    .decode("utf-8", errors="replace")
+                    .strip()
+                )
             self._set_error(details or f'"{name}" exited with code {exit_code}.')
         else:
             self._set_message(f'"{name}" stopped.')
