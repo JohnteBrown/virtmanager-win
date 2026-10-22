@@ -5,46 +5,47 @@ import "v4/qtscript/WLib.js" as WLib
 ApplicationWindow {
     id: window
     width: 320
-    height: 260
+import "../v4/qtscript/WLib.js" as WLib
     visible: true
-
-    header: ToolBar {
-        id: mainToolBar
-        
-        Row {
+ToolBar {
+    id: toolbar
             id: toolbarRow
-            anchors.fill: parent
-            spacing: 5
-            
-            Button {
-                text: "Init Controls"
-                onClicked: {
-                    WLib.toggleToolbarVisibility(mainToolBar); 
-                    WLib.createToolbarButton(toolbarRow, window);
-                }
-            }
-        }
+    property var rootWindow
+    signal newVmRequested()
+    signal refreshRequested()
+            Action { text: qsTr("&Open...") }
+    background: Rectangle {
+        color: "#172321"
     }
 
-    menuBar: MenuBar {
-        Menu {
-            title: qsTr("&File")
-            Action { text: qsTr("&New..."); onClicked: WLib.handleAction("New", window) }
-            Action { text: qsTr("&Open...") }
-            Action { text: qsTr("&Save") }
-            Action { text: qsTr("Save &As...") }
-            MenuSeparator {}
-            Action { text: qsTr("&Quit"); onClicked: Qt.quit() }
+    RowLayout {
+        anchors.fill: parent
+        anchors.leftMargin: 22
+        anchors.rightMargin: 18
+        spacing: 12
+
+        Label {
+            text: "VIRT / MANAGER"
+            color: "#f4f7f5"
+            font.bold: true
+            font.pixelSize: 16
         }
-        Menu {
-            title: qsTr("&Edit")
-            Action { text: qsTr("Cu&t") }
-            Action { text: qsTr("&Copy") }
-            Action { text: qsTr("&Paste") }
+
+        Label {
+            text: "QEMU for Windows"
+            color: "#a8b8b3"
+            font.pixelSize: 12
         }
-        Menu {
-            title: qsTr("&Help")
-            Action { text: qsTr("&About") }
+
+        Item { Layout.fillWidth: true }
+
+        ToolButton {
+            text: "Refresh"
+            onClicked: toolbar.refreshRequested()
+            palette.buttonText: "#eef4f1"
         }
-    }
-}
+
+        Button {
+            text: "＋  New VM"
+            highlighted: true
+            onClicked: toolbar.newVmRequested()
