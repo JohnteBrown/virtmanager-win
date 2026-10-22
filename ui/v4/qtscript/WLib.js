@@ -1,26 +1,24 @@
-// v4/qtscript/WLib.js
-// Created using Gemini & Modified by me (@JohnteBrown)
-
-function toggleToolbarVisibility(toolbarObject) {
-    // Toggles the visibility of the toolbar passed from QML
-    toolbarObject.visible = !toolbarObject.visible;
-    console.log("Toolbar visibility is now:", toolbarObject.visible);
+function openDialog(dialog) {
+    dialog.open();
 }
 
-function createToolbarButton(parentLayout, rootWindow) {
-    // Define raw QML code for a new button
-    var qmlString = 'import QtQuick.Controls 2.15; Button { text: "JS Button"; onClicked: console.log("Dynamic button clicked!") }';
-    
-    try {
-        var newButton = Qt.createQmlObject(qmlString, parentLayout, "dynamicButton");
-        console.log("Successfully added a new button via JS!");
-    } catch (e) {
-        console.log("Error creating dynamic QML object:", e.message);
-    }
+function closeDialog(dialog) {
+    dialog.close();
 }
 
-function handleAction(actionType, rootWindow) {
-    if (actionType === "New") {
-        rootWindow.title = "New Document Created";
-    }
+function confirmDelete(dialog, vmName) {
+    dialog.vmName = vmName;
+    dialog.open();
+}
+
+function selectVm(listView, index) {
+    listView.currentIndex = index;
+}
+
+function setWindowTitle(window, title) {
+    window.title = title;
+}
+
+function isValidVmName(name) {
+    return /^[A-Za-z0-9][A-Za-z0-9 _-]{0,47}$/.test(name);
 }
