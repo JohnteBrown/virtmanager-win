@@ -1,4 +1,3 @@
-```bat
 @echo off
 echo Starting Virtmanager-Win...
 echo.
@@ -46,4 +45,3 @@ if %errorlevel% neq 0 (
     echo Application exited with error code %errorlevel%
     if not defined APPVEYOR pause
 )
-```
