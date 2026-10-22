@@ -28,7 +28,6 @@ Window {
 
         ToolbarWidget {
             Layout.fillWidth: true
-            rootWindow: mainWindow
             onNewVmRequested: WLib.openDialog(newVmDialog)
             onRefreshRequested: vmManager.refresh()
         }
@@ -352,11 +351,11 @@ Window {
         property string vmName: ""
         title: "Delete virtual machine"
         modal: true
+        width: 400
         anchors.centerIn: Overlay.overlay
         padding: 24
 
         contentItem: Label {
-            width: 340
             text: 'Delete the disk for "' + deleteDialog.vmName + '"? This cannot be undone.'
             wrapMode: Text.WordWrap
         }
