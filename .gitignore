@@ -22,3 +22,7 @@ dist/**
 
 # Local Experiments
 dev-playground/**
+
+# Python 
+___pycache__/
+**/__pycache__/
