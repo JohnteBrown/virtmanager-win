@@ -2,7 +2,7 @@
 # Provides common development tasks including Cython builds, testing, linting, and deployment
 #
 # Requirements: GNU Make for Windows (choco install make / scoop install make),
-#               Python on PATH, and optionally Poetry.
+#               Python on PATH, and uv (winget install astral-sh.uv).
 
 # =============================================================================
 # Shell Configuration (Windows)
@@ -17,7 +17,7 @@ SHELL := cmd.exe
 
 PROJECT_NAME := virtmanager-win
 PYTHON ?= python
-POETRY ?= poetry
+UV ?= uv
 PIP := $(PYTHON) -m pip
 VENV_DIR := .venv
 SOURCE_DIRS := source ui cython
@@ -25,10 +25,6 @@ TEST_DIR := tests
 CYTHON_DIR := cython
 BUILD_DIR := build
 DIST_DIR := dist
-
-# Environment variables passed to every command (replaces inline VAR=value syntax)
-export POETRY_VIRTUALENVS_IN_PROJECT := true
-export POETRY_NO_INTERACTION := 1
 
 # Recursive wildcard (replaces `find`): $(call rwildcard,dir,*.ext)
 rwildcard = $(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$(d),$(2)) $(filter $(subst *,%,$(2)),$(d)))
@@ -78,9 +74,9 @@ help: ## Show this help message
 # =============================================================================
 
 .PHONY: install
-install: ## Install dependencies using Poetry
-	@echo Installing dependencies with Poetry...
-	$(POETRY) install --no-root
+install: ## Install dependencies using uv
+	@echo Installing dependencies with uv...
+	$(UV) sync --no-install-project
 	@echo [OK] Dependencies installed
 
 .PHONY: install-pip
@@ -92,7 +88,7 @@ install-pip: ## Install dependencies using pip (fallback)
 .PHONY: install-dev
 install-dev: install ## Install development dependencies
 	@echo Installing development dependencies...
-	$(POETRY) install --no-root --with dev
+	$(UV) sync --no-install-project --group dev
 	@echo [OK] Development dependencies installed
 
 .PHONY: venv
@@ -256,18 +252,18 @@ shell: ## Open interactive Python shell with project in path
 .PHONY: notebook
 notebook: ## Start Jupyter notebook server
 	@echo Starting Jupyter notebook...
-	$(PYTHON) -m jupyter notebook || echo Install jupyter: poetry add jupyter
+	$(PYTHON) -m jupyter notebook || echo Install jupyter: uv add jupyter
 
 .PHONY: deps-update
 deps-update: ## Update dependencies
 	@echo Updating dependencies...
-	$(POETRY) update || $(PIP) list --outdated
+	$(UV) lock --upgrade && $(UV) sync --no-install-project || $(PIP) list --outdated
 	@echo [OK] Dependencies updated
 
 .PHONY: deps-graph
 deps-graph: ## Show dependency graph
 	@echo Dependency graph:
-	$(POETRY) show --tree || $(PIP) show $(PROJECT_NAME) || echo Install pipdeptree: pip install pipdeptree
+	$(UV) tree || $(PIP) show $(PROJECT_NAME)
 
 # =============================================================================
 # Git Hooks
@@ -280,7 +276,7 @@ pre-commit: format lint test ## Run pre-commit checks
 .PHONY: install-hooks
 install-hooks: ## Install pre-commit git hooks
 	@echo Installing pre-commit hooks...
-	$(PYTHON) -m pre_commit install || echo Install pre-commit: poetry add --group dev pre-commit
+	$(PYTHON) -m pre_commit install || echo Install pre-commit: uv add --group dev pre-commit
 	@echo [OK] Pre-commit hooks installed
 
 # =============================================================================
@@ -295,14 +291,14 @@ info: ## Show project information
 	@$(PYTHON) --version
 	@echo Project directory: $(CURDIR)
 	@echo Virtual environment: $(VENV_DIR)
-	@echo Dependencies manager: $(POETRY)
+	@echo Dependencies manager: $(UV)
 	@echo.
 	@echo Source directories: $(SOURCE_DIRS)
 	@echo Cython files found: $(words $(PYX_FILES))
 	@echo Python files found: $(words $(PYTHON_FILES))
 	@echo.
 	@echo $(if $(wildcard $(VENV_DIR)/Scripts/activate.bat),[OK] Virtual environment exists,[X] Virtual environment not found)
-	@where $(POETRY) >nul 2>&1 && echo [OK] Poetry package manager available || echo [X] Poetry package manager not found
+	@where $(UV) >nul 2>&1 && echo [OK] uv package manager available || echo [X] uv package manager not found
 
 # =============================================================================
 # Special Targets
