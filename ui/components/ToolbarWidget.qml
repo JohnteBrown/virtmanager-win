@@ -1,19 +1,13 @@
 import QtQuick
 import QtQuick.Controls
-import "v4/qtscript/WLib.js" as WLib
+import QtQuick.Layouts
 
-ApplicationWindow {
-    id: window
-    width: 320
-import "../v4/qtscript/WLib.js" as WLib
-    visible: true
 ToolBar {
     id: toolbar
-            id: toolbarRow
-    property var rootWindow
+
     signal newVmRequested()
     signal refreshRequested()
-            Action { text: qsTr("&Open...") }
+
     background: Rectangle {
         color: "#172321"
     }
@@ -41,11 +35,14 @@ ToolBar {
 
         ToolButton {
             text: "Refresh"
-            onClicked: toolbar.refreshRequested()
             palette.buttonText: "#eef4f1"
+            onClicked: toolbar.refreshRequested()
         }
 
         Button {
-            text: "＋  New VM"
+            text: "+  New VM"
             highlighted: true
             onClicked: toolbar.newVmRequested()
+        }
+    }
+}
