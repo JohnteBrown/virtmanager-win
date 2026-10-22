@@ -66,7 +66,9 @@ class VMManager(QObject):
         self.vmsChanged.emit()
 
     @Slot(str, int, int, int, result=bool)
-    def createVm(self, name: str, memory_mb: int, cpus: int, disk_size_gb: int) -> bool:
+    def createVm(
+        self, name: str, memory_mb: int, cpus: int, disk_size_gb: int
+    ) -> bool:
         name = name.strip()
         if not self._name_pattern.fullmatch(name):
             return self._fail(
@@ -126,7 +128,8 @@ class VMManager(QObject):
         qemu_system = self._find_program("qemu-system-x86_64")
         if qemu_system is None:
             return self._fail(
-                "qemu-system-x86_64 was not found. Install QEMU and add its bin folder to PATH."
+                "qemu-system-x86_64 was not found. Install QEMU and add its "
+                "bin folder to PATH."
             )
 
         metadata = self._read_metadata(disk_path)
