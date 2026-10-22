@@ -1,3 +1,4 @@
+```bat
 @echo off
 echo Starting Virtmanager-Win...
 echo.
@@ -5,14 +6,13 @@ echo.
 REM Change to the script directory
 cd /d "%~dp0"
 
-set POETRY_VIRTUALENVS_IN_PROJECT=true
-set POETRY_NO_INTERACTION=1
+set UV_NO_PROGRESS=1
 
-REM Check if poetry is available
-poetry --version >nul 2>&1
+REM Check if uv is available
+uv --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Error: Poetry not found. Please install Poetry first.
-    echo Visit: https://python-poetry.org/docs/#installation
+    echo Error: uv not found. Please install uv first.
+    echo Visit: https://docs.astral.sh/uv/getting-started/installation/
     pause
     exit /b 1
 )
@@ -20,17 +20,25 @@ if %errorlevel% neq 0 (
 REM Check if virtual environment exists
 if not exist ".venv" (
     echo Virtual environment not found. Creating one...
-    poetry install --no-root
+    uv sync --no-install-project
     if %errorlevel% neq 0 (
-        echo Error: Failed to create virtual environment
+        echo Error: Failed to create virtual environment or install dependencies.
         pause
         exit /b 1
     )
 )
 
+REM Ensure dependencies are synchronized
+uv sync --no-install-project
+if %errorlevel% neq 0 (
+    echo Error: Failed to synchronize dependencies.
+    pause
+    exit /b 1
+)
+
 REM Run the application
 echo Running application...
-poetry run python main.py
+uv run --no-sync python main.py
 
 REM Keep window open if there was an error
 if %errorlevel% neq 0 (
@@ -38,3 +46,4 @@ if %errorlevel% neq 0 (
     echo Application exited with error code %errorlevel%
     if not defined APPVEYOR pause
 )
+```
