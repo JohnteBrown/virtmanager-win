@@ -192,17 +192,17 @@ check: lint type-check ## Run all code quality checks
 # =============================================================================
 
 .PHONY: run
-run: build ## Run the main application
+run: ## Run the main application
 	@echo Starting $(PROJECT_NAME)...
 	$(PYTHON) main.py
 
 .PHONY: run-dev
-run-dev: build ## Run application in development mode
+run-dev: ## Run application in development mode
 	@echo Starting $(PROJECT_NAME) in development mode...
 	$(PYTHON) main.py --dev || $(PYTHON) main.py
 
 .PHONY: debug
-debug: build-debug ## Run application with debug build
+debug: ## Run application in debug mode
 	@echo Starting $(PROJECT_NAME) with debug build...
 	$(PYTHON) main.py --debug || $(PYTHON) main.py
 

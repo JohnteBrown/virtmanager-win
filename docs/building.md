@@ -109,6 +109,16 @@ make install       # Install dependencies
 make build         # Build Cython extensions
 ```
 
+### Run the application
+The QtQuick manager itself does not depend on the compiled Cython examples. Install the Python dependencies, make sure `qemu-img` and `qemu-system-x86_64` are on `PATH`, and launch the UI:
+
+```bash
+uv sync
+uv run python main.py
+```
+
+The app can open when QEMU is unavailable; VM actions will report that QEMU is required. Newly created VMs contain a blank disk and need a guest operating system installed separately. Managed disks are stored in the Qt application-data directory under `vms/`.
+
 ### Development Cycle
 ```bash
 make quick         # Quick build and test
