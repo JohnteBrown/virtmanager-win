@@ -16,6 +16,8 @@ Thumbs.db
 # Artifacts
 build/**
 dist/**
+log/**
+logs/**
 
 # Editor
 .vscode/**
