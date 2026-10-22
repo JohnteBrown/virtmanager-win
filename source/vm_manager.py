@@ -73,7 +73,8 @@ class VMManager(QObject):
         if not self._name_pattern.fullmatch(name):
             return self._fail(
                 "Use a name starting with a letter or number; only letters, "
-                "numbers, spaces, hyphens, and underscores are allowed (48 characters max)."
+                "numbers, spaces, hyphens, and underscores are allowed "
+                "(48 characters max)."
             )
         if not 512 <= memory_mb <= 131072:
             return self._fail("Memory must be between 512 and 131072 MB.")
