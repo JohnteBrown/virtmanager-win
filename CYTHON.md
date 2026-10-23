@@ -13,3 +13,14 @@ both of these sourcefiles are NOT in use by the application and as a result are 
 
 > [!NOTE]
 > see [.gitattributes](.gitattributes) for more information
+
+### now about those build scripts?
+
+the following build scripts?
+
+* [build.py](build.py)
+* [build_and_test.bat](build_and_test.bat)
+* [build_and_test.sh](build_and_test.sh)
+* [test_cython.py](test_cython.py)
+
+ these can just be ignored for now :)
