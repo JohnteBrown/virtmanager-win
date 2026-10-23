@@ -1,2 +1,3 @@
-ui/v4/qtscript/**/*.js linguist-language=Qt Script
+ui/v4/qtscript/**/*.js linguist-language=JavaScript
 ui/v4/qtscript/**/*.js linguist-detectable=true
+cython/** linguist-vendored=true
