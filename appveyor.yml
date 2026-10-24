@@ -5,19 +5,17 @@ platform: x64
 environment:
   UV_NO_PROGRESS: "1"
 
-install_chocolatey:
-  - choco install make -y
-
 install:
+  - choco install make -y
   - pip install uv
   - uv --version
   - uv sync --no-install-project
 
-unit_test:
+test_script:
   - make test-unit
-  - quality_checks:
-      - make format
-      - make lint
-      - make check
-cleanup:
+  - make format
+  - make lint
+  - make check
+
+on_finish:
   - make clean-all
