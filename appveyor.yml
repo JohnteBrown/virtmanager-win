@@ -1,6 +1,5 @@
-version: "{build}"
-image: Visual Studio 2022
-platform: x64
+version: 1.0.{build}
+build: off
 
 environment:
   UV_NO_PROGRESS: "1"
