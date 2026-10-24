@@ -9,7 +9,7 @@ virtmanager-win is a UI Frontend for QEMU for Windows written in Python/Cython i
 - **Bundler**: Pyinstaller
 - **Linting**: Flake8
 - **Formatter**: Black
-- **Dependencies manager**: poetry
+- **Dependencies manager**: uv
 - **GUI Toolkit**: QtQuick, PySide6, QML
 
 ## Quick Start & Basic Commands
