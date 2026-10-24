@@ -3,17 +3,21 @@ image: Visual Studio 2022
 platform: x64
 
 environment:
-  POETRY_VIRTUALENVS_IN_PROJECT: "true"
-  POETRY_NO_INTERACTION: "1"
+  UV_NO_PROGRESS: "1"
+
+install:chocolatey:
+  - choco install make -y
 
 install:
-  - python -m pip install --upgrade pip
-  - pip install poetry
-  - poetry --version
-  - poetry install --no-root
+  - pip install uv
+  - uv --version
+  - uv sync --no-install-project
 
-build_script:
-  - poetry run python build.py build_ext --inplace
-
-test_script:
-  - poetry run python test_cython.py
+unit_test:
+  - make test-unit
+  - quality_checks:
+      - make format
+      - make lint
+      - make check
+cleanup:
+  - make clean-all
