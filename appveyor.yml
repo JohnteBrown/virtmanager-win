@@ -15,7 +15,7 @@ install:
   - uv --version
   - uv sync --no-install-project
 
-quality_checks:
+check_script:
   - make format
   - make lint
   - make check
