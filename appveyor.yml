@@ -19,7 +19,7 @@ install:
   - uv --version
   - uv sync --no-install-project
 
-check_script:
+test_script:
   - make format
   - make lint
   - make check
