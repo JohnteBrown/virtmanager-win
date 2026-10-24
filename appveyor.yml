@@ -4,8 +4,11 @@ platform: x64
 
 environment:
   UV_NO_PROGRESS: "1"
+  PYTHON: "C:\\Python314-x64"
 
 install:
+  - set PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
+  - python -c "import struct; print(struct.calcsize('P') * 8)"
   - choco install make -y
   - pip install uv
   - uv --version
