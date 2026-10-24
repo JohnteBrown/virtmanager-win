@@ -1,3 +1,4 @@
+
 version: "{build}"
 image: Visual Studio 2022
 platform: x64
@@ -8,10 +9,13 @@ environment:
   PY64_DIR: "C:\\Python314-x64"
 
 install:
-  - set PATH=%PY64_DIR%;%PY64_DIR%\Scripts;%PATH%
-  - python -c "import struct; print(struct.calcsize('P') * 8)"
+  - set "PATH=%PY64_DIR%;%PY64_DIR%\\Scripts;%PATH%"
+  - python --version
+  - python -c "import sys, struct; print(sys.executable); print(struct.calcsize('P') * 8)"
   - choco install make -y
-  - pip install uv
+  - where make
+  - make --version
+  - python -m pip install uv
   - uv --version
   - uv sync --no-install-project
 
