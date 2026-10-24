@@ -5,7 +5,7 @@ platform: x64
 environment:
   UV_NO_PROGRESS: "1"
 
-install:chocolatey:
+install_chocolatey:
   - choco install make -y
 
 install:
