@@ -1,19 +1,28 @@
+
 version: "{build}"
 image: Visual Studio 2022
 platform: x64
+build: off
 
 environment:
-  POETRY_VIRTUALENVS_IN_PROJECT: "true"
-  POETRY_NO_INTERACTION: "1"
+  UV_NO_PROGRESS: "1"
+  PY64_DIR: "C:\\Python314-x64"
 
 install:
-  - python -m pip install --upgrade pip
-  - pip install poetry
-  - poetry --version
-  - poetry install --no-root
-
-build_script:
-  - poetry run python build.py build_ext --inplace
+  - set "PATH=%PY64_DIR%;%PY64_DIR%\\Scripts;%PATH%"
+  - python --version
+  - python -c "import sys, struct; print(sys.executable); print(struct.calcsize('P') * 8)"
+  - choco install make -y
+  - where make
+  - make --version
+  - python -m pip install uv
+  - uv --version
+  - uv sync --no-install-project
 
 test_script:
-  - poetry run python test_cython.py
+  - make format
+  - make lint
+  - make check
+
+on_finish:
+  - make clean-all

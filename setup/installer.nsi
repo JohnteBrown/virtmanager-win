@@ -1,0 +1,1 @@
+﻿# TODO: make installer logic once application is ready for release

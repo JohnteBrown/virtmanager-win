@@ -1,4 +1,3 @@
-```bash
 #!/bin/bash
 
 echo "Starting Virtmanager-Win..."
@@ -45,4 +44,3 @@ if [ "$exit_code" -ne 0 ]; then
 fi
 
 exit "$exit_code"
-```

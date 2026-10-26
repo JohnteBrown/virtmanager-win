@@ -1,3 +1,7 @@
+/*
+WLib.js - A Simple QtScript Window Control Library
+*/
+
 function openDialog(dialog) {
     dialog.open();
 }
